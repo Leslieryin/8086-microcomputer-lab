@@ -119,7 +119,7 @@ MOV SHOW_ONE, AL
 | 芯片 | 端口 | 说明 |
 |---|---|---|
 | 8253 计数器 0 / 1 | `200H` / `202H` | 控制口 `206H` |
-| 8259 命令口 / 数据口 | `300H` / `302H` | ICW1=`13H`、ICW2=`60H`、ICW4=`01H` |
+| 8259 命令 / 数据口 | `300H` / `302H` | ICW1/2/4 = `13H`/`60H`/`01H` |
 | 8255 PB / 控制口 | `102H` / `106H` | 方式 0 全输出（`80H`） |
 | ADC0808 | `400H` | 写入启动转换，读取得结果 |
 
@@ -127,13 +127,11 @@ MOV SHOW_ONE, AL
 
 同一功能的两个版本，`adc0808_original.asm` 是最初交上去的样子，`adc0808_refactored.asm` 是后来重写的。
 
-| 维度 | 初版（217 行） | 重构版（318 行） |
-|---|---|---|
-| 结构 | 初始化与中断逻辑全部内联在 `START` 和 `INT_PROC` 里 | 拆成 `SETUP_INTERRUPT` / `INIT_PARALLEL_PORT` / `INIT_TIMER_MODULE` / `INIT_INTERRUPT_CTRL` 四个初始化子程序 |
-| 中断服务 | 一整个长过程 | `IRQ_HANDLER` 只做流程编排，实活分派给 `TRIGGER_ADC` / `WAIT_ADC_DONE` / `PROCESS_ADC_DATA` / `SEND_EOI_TO_PIC` |
-| 端口地址 | 散落在各处的立即数 | 全部提为 `EQU` 常量，改板子只改一处 |
-| 取高 4 位 | `SHR AL,1` 连写四次 | `MOV CL,04H` + `SHR AL,CL` |
-| 注释 | 按段分节 | 每个子程序带功能说明与寄存器约定 |
+- **结构** —— 初版把初始化与中断逻辑全部内联在 `START` 和 `INT_PROC` 里；重构版拆成 `SETUP_INTERRUPT` / `INIT_PARALLEL_PORT` / `INIT_TIMER_MODULE` / `INIT_INTERRUPT_CTRL` 四个初始化子程序。
+- **中断服务** —— 初版是一整个长过程；重构版 `IRQ_HANDLER` 只做流程编排，实活分派给 `TRIGGER_ADC` / `WAIT_ADC_DONE` / `PROCESS_ADC_DATA` / `SEND_EOI_TO_PIC`。
+- **端口地址** —— 初版散落在各处的立即数；重构版全部提为 `EQU` 常量，改板子只改一处。
+- **取高 4 位** —— 初版 `SHR AL,1` 连写四次；重构版 `MOV CL,04H` + `SHR AL,CL`。
+- **注释** —— 初版按段分节；重构版每个子程序带功能说明与寄存器约定。
 
 重构的方向很明确：**让中断服务程序退化成一张流程图**。原来读 `INT_PROC` 要从头顺到尾才知道在干什么，重构后 `IRQ_HANDLER` 本身就能读出"启动转换 → 等转换完 → 处理数据 → 发 EOI"这条主线，细节下沉到子程序。
 
