@@ -1,0 +1,25 @@
+# 汇编与链接产物
+*.obj
+*.OBJ
+*.exe
+*.EXE
+*.lst
+*.LST
+*.map
+*.MAP
+*.crf
+*.sbr
+*.o
+
+# Proteus
+*.workspace
+*.pdsbak
+*.workspace.*
+Project Backups/
+
+# 系统与编辑器
+Thumbs.db
+desktop.ini
+.DS_Store
+*~
+*.swp

@@ -1,0 +1,15 @@
+* text=auto
+
+# 汇编源码保持 CRLF，兼容老版 MASM 与 DOS 工具链
+*.asm text eol=crlf
+*.inc text eol=crlf
+
+# 文档
+*.md text eol=lf
+LICENSE text eol=lf
+.gitignore text eol=lf
+
+# 二进制资源
+*.pdsprj binary
+*.jpg binary
+*.png binary
