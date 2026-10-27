@@ -1,5 +1,7 @@
 # 8086 微机原理课程设计
 
+![CI](https://github.com/Leslieryin/8086-microcomputer-lab/actions/workflows/ci.yml/badge.svg)
+
 两个基于 8086 + 典型外围芯片的汇编实验，配套 Proteus 仿真工程：
 
 1. **抢答计时器** —— 8255 + 8254，20 秒倒计时、双人抢答、动态扫描数码管、蜂鸣器提示
