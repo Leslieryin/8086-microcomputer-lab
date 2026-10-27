@@ -32,7 +32,7 @@ jobs:
           $failed = 0
           foreach ($file in $files) {
             $obj = Join-Path $env:RUNNER_TEMP ($file.BaseName + ".obj")
-            & $ml.FullName /c /nologo /Fo"$obj" "$($file.FullName)"
+            & $ml.FullName /c /omf /nologo /Fo"$obj" "$($file.FullName)"
             if ($LASTEXITCODE -ne 0) {
               Write-Host "::error file=$($file.FullName)::MASM 汇编失败"
               $failed++
