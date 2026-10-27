@@ -2,6 +2,8 @@
 
 ![CI](https://github.com/Leslieryin/8086-microcomputer-lab/actions/workflows/ci.yml/badge.svg)
 
+> **EN** — A 8086 microcomputer course design: a 8255+8254 quiz buzzer timer and a 8253+8259+ADC0808 timed sampling experiment, shipped with the original Proteus project. CI assembles every .asm with MASM.
+
 两个基于 8086 + 典型外围芯片的汇编实验，配套 Proteus 仿真工程：
 
 1. **抢答计时器** —— 8255 + 8254，20 秒倒计时、双人抢答、动态扫描数码管、蜂鸣器提示
